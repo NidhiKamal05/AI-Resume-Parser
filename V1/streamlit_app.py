@@ -1,6 +1,16 @@
+!pip install PyMuPDF
+!pip install spacy
+!python -m spacy download en_core_web_sm
+
+
 import streamlit as st
 import json
+import fitz # PyMuPDF
+import spacy
+#import gradio as gr
+import re
 
+nlp = spacy.load("en_core_web-sm")
 def extract_text_from_pdf(pdf_file):
   """
   PDF text reader
