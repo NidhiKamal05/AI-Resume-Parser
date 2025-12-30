@@ -1,6 +1,6 @@
-!pip install PyMuPDF
-!pip install spacy
-!python -m spacy download en_core_web_sm
+# !pip install PyMuPDF
+# !pip install spacy
+# !python -m spacy download en_core_web_sm
 
 
 import streamlit as st
@@ -9,8 +9,17 @@ import fitz # PyMuPDF
 import spacy
 #import gradio as gr
 import re
+import os
 
-nlp = spacy.load("en_core_web-sm")
+@st.cache_resource
+def get_nlp():
+  try:
+    return spacy.load("en_core_web-sm")
+  except:
+    os.system("python -m spacy download en_core_web_sm")
+    
+    
+nlp = get_nlp()
 def extract_text_from_pdf(pdf_file):
   """
   PDF text reader
