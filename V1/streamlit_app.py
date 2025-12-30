@@ -64,11 +64,9 @@ def extract_contact_info(text):
 def resume_parser(pdf_file):
     raw_text="Test"
     # raw_text = extract_text_from_pdf(pdf_file)
-
     #contacts = extract_contact_info(raw_text)
-
     return raw_text
-    #return contacts
+   
 
 st.set_page_config(page_title="AI Resume Parser", layout="centered")
 st.title("AI Resume Parser")
