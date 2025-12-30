@@ -42,7 +42,7 @@ def extract_contact_info(text):
     email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
     emails = re.findall(email_pattern, text)
 
-    phone_pattern = r'^[6-9]\d{9}$'
+    phone_pattern = r'[6-9]\d{9}'
     phones = re.findall(phone_pattern, text)
 
     linkedin = re.findall(r'linkedin\.com/in/[\w.-]+', text)
@@ -59,9 +59,10 @@ def extract_contact_info(text):
 def resume_parser(pdf_file):
     raw_text = extract_text_from_pdf(pdf_file)
 
-    contacts = extract_contact_info(raw_text)
+    #contacts = extract_contact_info(raw_text)
 
-    return contacts
+    return raw_text
+    #return contacts
 
 st.set_page_config(page_title="AI Resume Parser", layout="centered")
 st.title("AI Resume Parser")
