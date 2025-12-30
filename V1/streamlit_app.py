@@ -5,15 +5,17 @@ import spacy
 import re
 import os
 
-# @st.cache_resource
-# def get_nlp():
-#   try:
-#     return spacy.load("en_core_web-sm")
-#   except:
-#     os.system("python -m spacy download en_core_web_sm")
+@st.cache_resource
+def get_nlp():
+    try:
+        return spacy.load("en_core_web-sm")
+    except:
+        os.system("python -m spacy download en_core_web_sm")
+        return spacy.load("en_core_web-sm")
+        
     
     
-# nlp = get_nlp()
+nlp = get_nlp()
 def extract_text_from_pdf(pdf_file):
   """
   PDF text reader
@@ -60,7 +62,8 @@ def extract_contact_info(text):
     }
 
 def resume_parser(pdf_file):
-    raw_text = extract_text_from_pdf(pdf_file)
+    raw_text="Test"
+    # raw_text = extract_text_from_pdf(pdf_file)
 
     #contacts = extract_contact_info(raw_text)
 
