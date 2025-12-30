@@ -1,6 +1,6 @@
 import streamlit as st
 import json
-import fitz # PyMuPDF
+import pymupdf # PyMuPDF
 import spacy
 import re
 import os
@@ -22,7 +22,7 @@ def extract_text_from_pdf(pdf_file):
   """
 
   try:
-    doc = fitz.open(pdf_file.name)
+    doc = pymupdf.open(pdf_file.name)
 
     text = ""
     for page in doc:
