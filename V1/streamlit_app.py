@@ -4,21 +4,21 @@ import fitz # PyMuPDF
 import spacy
 import re
 import os
-import nltk
-from nltk.corpus import stopwords
+# import nltk
+# from nltk.corpus import stopwords
 from spacy.matcher import PhraseMatcher
 from spacy.tokens import Span
 
 # Ensure NLTK data is downloaded for clean_resume_text
 # These were already downloaded in the notebook, but good to ensure for a standalone app
-try:
-    nltk.data.find('corpora/stopwords')
-except nltk.downloader.DownloadError:
-    nltk.download('stopwords')
-try:
-    nltk.data.find('tokenizers/punkt')
-except nltk.downloader.DownloadError:
-    nltk.download('punkt')
+# try:
+#     nltk.data.find('corpora/stopwords')
+# except nltk.downloader.DownloadError:
+#     nltk.download('stopwords')
+# try:
+#     nltk.data.find('tokenizers/punkt')
+# except nltk.downloader.DownloadError:
+#     nltk.download('punkt')
 
 @st.cache_resource
 def get_nlp():
@@ -72,15 +72,15 @@ def extract_contact_info(text):
         "GitHub": github[0] if github else "Not Found"
     }
 
-def clean_resume_text(text):
-    text = text.lower()
-    text = re.sub(r'\S+@\S+','',text)
-    text = re.sub(r'http\S+','',text)
-    text = re.sub(r'[^a-zA-Z\s]','',str(text))
-    stop_words = set(stopwords.words('english'))
-    words = nltk.word_tokenize(text)
-    filtered_text = [w for w in words if w not in stop_words]
-    return " ".join(filtered_text)
+# def clean_resume_text(text):
+#     text = text.lower()
+#     text = re.sub(r'\S+@\S+','',text)
+#     text = re.sub(r'http\S+','',text)
+#     text = re.sub(r'[^a-zA-Z\s]','',str(text))
+#     stop_words = set(stopwords.words('english'))
+#     words = nltk.word_tokenize(text)
+#     filtered_text = [w for w in words if w not in stop_words]
+#     return " ".join(filtered_text)
 
 def extract_entities(text, nlp_model):
     """
