@@ -1,4 +1,6 @@
 from flask import Flask, render_template, url_for, jsonify
+from models import parser
+
 
 app = Flask(__name__)
 
@@ -14,7 +16,8 @@ def parse_resume():
 
 @app.route('/api/read')
 def read_pdf():
-	raw_text = "Read Successfully...."
+	raw_text =parser.read_resume("Read Successfully....")
+	# raw_text = "Read Successfully...."
 	return jsonify({'raw_text': raw_text})
 
 @app.route('/api/analyze')
