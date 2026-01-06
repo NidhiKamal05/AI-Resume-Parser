@@ -85,15 +85,15 @@ analyze_btn.addEventListener("click", () => {
 const fetchReadData = async() => {
     const file = globals.get_file ;
     // const my_file = globals.get_file.files[0] ;
+    const form_data = new FormData(globals.my_form) ;
     if(file.files.length > 0) {
         const pdf = file.files[0] ;
         console.log(pdf.name) ;
+        form_data.append('my_pdf', pdf) ;
     }
     else {
         console.log("Select any pdf...") ;
     }
-    const form_data = new FormData(globals.my_form) ;
-    form_data.append('my_pdf', pdf) ;
     try {
         const response = await fetch(globals.read_api, {
             method: 'POST',
