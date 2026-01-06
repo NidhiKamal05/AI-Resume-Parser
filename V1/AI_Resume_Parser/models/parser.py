@@ -1,3 +1,7 @@
+import fitz #PyMuPDF
+import re
+
+
 def read_resume(text):
     return text
 

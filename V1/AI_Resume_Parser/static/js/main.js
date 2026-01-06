@@ -100,7 +100,7 @@ const fetchReadData = async() => {
             body: form_data,
         }) ;
         console.log(`Data fetched: ${response}`) ;
-        raw_output.innerText = JSON.stringify(response.raw_text, null, 2) ;
+        globals.raw_output.innerText = JSON.stringify(response.raw_text, null, 2) ;
     }
     catch(error) {
         console.log(`Error: ${error}`) ;
