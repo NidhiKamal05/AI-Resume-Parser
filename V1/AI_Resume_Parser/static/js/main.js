@@ -100,6 +100,7 @@ const fetchReadData = async() => {
             body: form_data,
         }) ;
         console.log(`Data fetched: ${response}`) ;
+        raw_output.innerText = JSON.stringify(response.raw_text, null, 2) ;
     }
     catch(error) {
         console.log(`Error: ${error}`) ;
@@ -110,10 +111,23 @@ const fetchReadData = async() => {
 }
 
 const fetchAnalyzeData = async() => {
-    const my_file = globals.get_file.files[0] ;
+    // const my_file = globals.get_file.files[0] ;
     const job_desc = globals.jd ;
+    const file = globals.get_file ;
+    const form_data = new FormData(globals.my_form) ;
+    if(file.files.length > 0) {
+        const pdf = file.files[0] ;
+        console.log(pdf.name) ;
+        form_data.append('my_pdf', pdf) ;
+    }
+    else {
+        console.log("Select any pdf...") ;
+    }
     try {
-        const response = await fetch(globals.analyze_api);
+        const response = await fetch(globals.analyze_api, {
+            method: 'POST',
+            body: form_data,
+        });
         console.log(`Data fetched: ${response}`) ;
     }
     catch(error) {
