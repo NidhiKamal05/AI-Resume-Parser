@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, jsonify
+from flask import Flask, render_template, url_for, jsonify, request
 from models import parser
 
 
@@ -14,9 +14,11 @@ def parse_resume():
 	# Renders the index.html file inside the templates folder
 	return render_template('parse.html')
 
-@app.route('/api/read')
+@app.route('/api/read', methods=['POST'])
 def read_pdf():
-	raw_text =parser.read_resume("Read Successfully....")
+	my_pdf = request.files['my_pdf']
+	raw_text = parser.extract_text_from_pdf(my_pdf)
+	# raw_text =parser.read_resume("Read Successfully....")
 	# raw_text = "Read Successfully...."
 	return jsonify({'raw_text': raw_text})
 

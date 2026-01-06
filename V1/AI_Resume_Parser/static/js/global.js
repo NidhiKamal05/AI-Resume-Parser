@@ -1,9 +1,10 @@
 // global data
 export const index_api ="https://ai-resume-parser-42a1.onrender.com/api/";
-export const read_api ="https://ai-resume-parser-42a1.onrender.com/api/read";
 // export const read_api ="https://ai-resume-parser-42a1.onrender.com/analyze";
+export const read_api ="https://ai-resume-parser-42a1.onrender.com/api/read";
 export const analyze_api ="https://ai-resume-parser-42a1.onrender.com/api/analyze";
 
+export const my_form = document.getElementById("upload_form") ;
 export const get_file = document.getElementById("pdf_file") ;
 export const jd = document.getElementById("job_desc") ;
 
