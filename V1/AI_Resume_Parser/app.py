@@ -28,7 +28,7 @@ def read_pdf():
 		return jsonify({'Error' : str(e)}),500
 
 
-@app.route('/api/analyze')
+@app.route('/api/analyze', methods=['POST'])
 def analyze_resume():
 	if 'my_pdf' not in request.files:
 		return jsonify({'error': 'No file uploaded'}), 400

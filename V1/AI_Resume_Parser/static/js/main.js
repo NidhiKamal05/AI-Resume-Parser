@@ -48,8 +48,8 @@ read_btn.addEventListener("click",()=>{
 
     fetchReadData() ;
 
-    let text = "ssfdfjhn" ;
-    globals.raw_output.innerText = text ;
+    // let text = "ssfdfjhn" ;
+    // globals.raw_output.innerText = text ;
 });
 
 
@@ -74,11 +74,11 @@ analyze_btn.addEventListener("click", () => {
 
     fetchAnalyzeData() ;
 
-    let text = "ssfdfjhn";
+    // let text = "ssfdfjhn";
 
-    globals.gap_output.innerText = text;
-    globals.score_output.innerText = text;
-    globals.chart_output.innerText = text;
+    // globals.gap_output.innerText = text;
+    // globals.score_output.innerText = text;
+    // globals.chart_output.innerText = text;
 }) ;
 
 
