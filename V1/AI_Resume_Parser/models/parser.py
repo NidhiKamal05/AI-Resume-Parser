@@ -1,6 +1,5 @@
-import fitz #PyMuPDF
+import fitz
 import re
-
 
 def read_resume(text):
     return text
@@ -11,11 +10,15 @@ def extract_text_from_pdf(pdf_file):
   """
   #return pdf_file.name
   try:
-    doc = fitz.open(pdf_file.name)
+    # doc = fitz.open(pdf_file.name)
+    # doc = fitz.open(stream=pdf_file.stream.read(), filetype="pdf")
 
+    pdf_bytes = pdf_file.read()
+    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
     text = ""
     for page in doc:
-      text += page.get_text()
+        text += page.get_text()
+    doc.close()
 
     cleaned_text = " ".join(text.split())
 

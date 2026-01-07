@@ -93,14 +93,19 @@ const fetchReadData = async() => {
     }
     else {
         console.log("Select any pdf...") ;
+        return ;
     }
     try {
         const response = await fetch(globals.read_api, {
             method: 'POST',
             body: form_data,
         }) ;
-        console.log(`Data fetched: ${response}`) ;
-        globals.raw_output.innerText = JSON.stringify(response.raw_text, null, 2) ;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const result=await response.json();
+        console.log(`Data fetched: ${result}`) ;
+        globals.raw_output.innerText = result.raw_text ;
     }
     catch(error) {
         console.log(`Error: ${error}`) ;
@@ -122,13 +127,28 @@ const fetchAnalyzeData = async() => {
     }
     else {
         console.log("Select any pdf...") ;
+        return ;
+    }
+    if (globals.jd) {
+        form_data.append("job_desc", globals.jd);
     }
     try {
         const response = await fetch(globals.analyze_api, {
             method: 'POST',
             body: form_data,
         });
-        console.log(`Data fetched: ${response}`) ;
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        // result = {'Missing Skills': missing_skills, 'Matched Skills': matched_skills, 'Score': score}
+        const result = await response.json();
+        console.log(`Data fetched: ${result}`) ;
+        globals.score_output.innerText=JSON.stringify(result.Score);
+        const missing = Array.isArray(result.Missing_Skills) ? result.Missing_Skills.join(", ") : result.Missing_Skills;
+        const matched = Array.isArray(result.Matched_Skills) ? result.Matched_Skills.join(", ") : result.Matched_Skills;
+        globals.gap_output.innerText = `Gaps = ${missing}\nMatched Skills = ${matched}`;
+        // globals.gap_output.innerText=`Gaps = ${result.Missing_Skills} \n Matched Skills=${result.Matched_Skills}`;
+        // globals.score_output.innerText=JSON.stringify(result.Score);
     }
     catch(error) {
         console.log(`Error: ${error}`) ;
