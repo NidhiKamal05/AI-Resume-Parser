@@ -110,7 +110,7 @@ const fetchReadData = async() => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
-        console.log(`Data fetched: ${result}`) ;
+        console.log("Data fetched:", result);
         globals.raw_output.innerText = result.raw_text ;
     }
     catch(error) {
@@ -142,11 +142,11 @@ const fetchContactData = async() => {
             throw new Error(`HTTP error! status: ${response.status}`) ;
         }
         const result = await response.json() ;
-        console.log(`Data fetched: ${result}`) ;
-        globals.contact_output.innerText = `Email: ${result.contact.Emails}\n
-                                            Phone: ${result.contact.Phones}\n
-                                            Linked In: ${result.contact.LinkedIn}\n
-                                            Github: ${result.contact.Github}` ;
+        console.log("Data fetched:", result);
+        globals.contact_output.innerText = `Email: ${result.contact.Emails || ""}\n
+                                            Phone: ${result.contact.Phones || ""}\n
+                                            Linked In: ${result.contact.LinkedIn || ""}\n
+                                            Github: ${result.contact.Github || ""}` ;
     }
     catch(error) {
         console.log(`Error: ${error}`) ;
@@ -183,7 +183,7 @@ const fetchAnalyzeData = async() => {
         }
         // result = {'Missing Skills': missing_skills, 'Matched Skills': matched_skills, 'Score': score}
         const result = await response.json();
-        console.log(`Data fetched: ${result}`) ;
+        console.log("Data fetched:", result);
         globals.score_output.innerText=JSON.stringify(result.Score);
         const missing = Array.isArray(result.Missing_Skills) ? result.Missing_Skills.join(", ") : result.Missing_Skills;
         const matched = Array.isArray(result.Matched_Skills) ? result.Matched_Skills.join(", ") : result.Matched_Skills;

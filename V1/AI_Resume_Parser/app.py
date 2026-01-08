@@ -25,7 +25,7 @@ def read_pdf():
 		# raw_text = "Read Successfully...."
 		return jsonify({'raw_text': raw_text})
 	except Exception as e:
-		return jsonify({'Error' : str(e)}),500
+		return jsonify({'error' : str(e)}),500
 
 
 @app.route('/api/contact', methods=['POST'])
@@ -34,11 +34,11 @@ def contact_info():
 		return jsonify({'error': 'No file uploaded'}), 400
 	my_pdf = request.files['my_pdf']
 	try:
-		raw_text = parser.exract_text_from_pdf(my_pdf)
+		raw_text = parser.extract_text_from_pdf(my_pdf)
 		contact = parser.extract_contact_info(raw_text)
 		return jsonify({'contact': contact})
 	except Exception as e:
-		return jsonify({'Error': str(e)}), 500
+		return jsonify({'error': str(e)}), 500
 
 
 @app.route('/api/analyze', methods=['POST'])
@@ -55,7 +55,7 @@ def analyze_resume():
 		# return jsonify({'result': result})
 		return jsonify({ 'Missing_Skills': missing_skills, 'Matched_Skills': matched_skills, 'Score': score })
 	except Exception as e:
-		return jsonify({'Error' : str(e)}),500
+		return jsonify({'error' : str(e)}),500
 	
 
 if __name__ == '__main__':
