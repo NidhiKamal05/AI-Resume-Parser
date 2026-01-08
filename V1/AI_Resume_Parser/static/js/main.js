@@ -16,7 +16,7 @@ import * as globals from "./global.js" ;
 //     }
 // }
 
-upload_btn.addEventListener("click", () => {
+globals.upload_btn.addEventListener("click", () => {
     console.log("UPLOAD") ;
 
     const file = globals.get_file ;
@@ -40,17 +40,23 @@ upload_btn.addEventListener("click", () => {
 //     raw_output.innerText = text ;
 // }
 
-read_btn.addEventListener("click",()=>{
+globals.read_btn.addEventListener("click",()=>{
     console.log("RAW TEXT");
 
-    const file = globals.get_file ;
-    const pdf = file.files[0] ;
+    // const file = globals.get_file ;
+    // const pdf = file.files[0] ;
 
     fetchReadData() ;
 
     // let text = "ssfdfjhn" ;
     // globals.raw_output.innerText = text ;
 });
+
+
+globals.contact_btn.addEventListener("click", () => {
+    console.log("CONTACT INFO") ;
+    fetchContactData() ;
+}) ;
 
 
 // onclick=analyze_data()
@@ -65,12 +71,12 @@ read_btn.addEventListener("click",()=>{
 //     chart_output.innerText = text;
 // }
 
-analyze_btn.addEventListener("click", () => {
+globals.analyze_btn.addEventListener("click", () => {
     console.log("ANALYZE DATA");
 
     // file = get_file;
-    const file = globals.get_file ;
-    const pdf = file.files[0] ;
+    // const file = globals.get_file ;
+    // const pdf = file.files[0] ;
 
     fetchAnalyzeData() ;
 
@@ -103,9 +109,41 @@ const fetchReadData = async() => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const result=await response.json();
+        const result = await response.json();
         console.log(`Data fetched: ${result}`) ;
         globals.raw_output.innerText = result.raw_text ;
+    }
+    catch(error) {
+        console.log(`Error: ${error}`) ;
+    }
+    finally {
+        console.log(`Task Completed`) ;
+    }
+}
+
+const fetchContactData = async() => {
+    const file = globals.get_file ;
+    const form_data = new FormData(globals.my_form) ;
+    if(file.files.length > 0) {
+        const pdf = file.files[0] ;
+        console.log(pdf.name) ;
+        form_data.append('my_pdf', pdf) ;
+    }
+    else {
+        console.log("Select any pdf...") ;
+        return ;
+    }
+    try {
+        const response = await fetch(globals.contact_api, {
+            method: 'POST',
+            body: form_data,
+        }) ;
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`) ;
+        }
+        const result = await response.json() ;
+        console.log(`Data fetched: ${result}`) ;
+        globals.contact_output.innerText = result.contact ;
     }
     catch(error) {
         console.log(`Error: ${error}`) ;

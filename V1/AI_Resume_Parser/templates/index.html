@@ -5,10 +5,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>
 			AI Resume Parser
-		</title>		
+		</title>
+		<link rel="stylesheet" type="text/css" href="../static/css/style.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/bootstrap/dist/css/bootstrap.min.css">
 		
-		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+		
+		<!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}"> -->
+		<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"> -->
 	</head>
 	
 	<body class="container-fluid">
@@ -52,6 +55,9 @@
 									<button class="btn" type="button" style="background-color:#E67E22; color:#ffffff;" id="read_btn" name="read_btn">Read</button>
 								</div>
 								<div class="col-md-4 d-grid gap-2 mt-1">
+									<button class="btn" type="button" style="background-color:#E67E22; color:#ffffff;" id="contact_btn" name="contact_btn">Contact</button>
+								</div>
+								<div class="col-md-4 d-grid gap-2 mt-1">
 									<button class="btn" type="button" style="background-color:#6C757D; color:#ffffff;" id="analyze_btn" name="analyze_btn">Analyze</button>
 								</div>
 							</div>
@@ -79,7 +85,34 @@
 			</section>
 			<!-- input section ends here -->
 
-			<!-- output section -->
+			<!-- output section1 -->
+			<section class="container">
+
+				<div class="row">
+
+					<div class="col-md-6" id="">
+
+						<legend>
+							Contact Info
+						</legend>
+
+						<!-- display gaps -->
+						<div id="contact_info">
+							
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+					</div>
+
+				</div>
+
+			</section>
+			<!-- output section1 ends here -->
+
+			<!-- output section2 -->
 			<section class="container">
 
 				<div class="row">
@@ -138,7 +171,7 @@
 				</div>
 
 			</section>
-			<!-- output section ends here -->
+			<!-- output section2 ends here -->
 
 			<!-- developers section -->
 			<section class="container">
@@ -170,8 +203,10 @@
 		<!-- </div> -->
 		<!-- conatiner starts -->
 		
-		<script src="{{url_for('static', filename='js/main.js')}}" type="module"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+		<script type="module" src="../static/js/main.js" ></script>
+		<script src="../static/js/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- <script src="{{url_for('static', filename='js/main.js')}}" type="module"></script> -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script> -->
 		
 	</body>
 </html>

@@ -28,6 +28,19 @@ def read_pdf():
 		return jsonify({'Error' : str(e)}),500
 
 
+@app.route('/api/contact', methods=['POST'])
+def contact_info():
+	if 'my_pdf' not in request.files:
+		return jsonify({'error': 'No file uploaded'}), 400
+	my_pdf = request.files['my_pdf']
+	try:
+		raw_text = parser.exract_text_from_pdf(my_pdf)
+		contact = parser.extract_contact_info(raw_text)
+		return contact
+	except Exception as e:
+		return jsonify({'Error': str(e)}), 500
+
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze_resume():
 	if 'my_pdf' not in request.files:
@@ -43,6 +56,7 @@ def analyze_resume():
 		return jsonify({ 'Missing_Skills': missing_skills, 'Matched_Skills': matched_skills, 'Score': score })
 	except Exception as e:
 		return jsonify({'Error' : str(e)}),500
+	
 
 if __name__ == '__main__':
 	app.run(debug = False)  # Ensures debug is False for production
