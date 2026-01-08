@@ -32,7 +32,7 @@ export const clear_all_output_divs = () => {
 export const show_loader = (parentId, message = "Loading...") => {
     const parent = document.getElementById(parentId);
     if (!parent) return;
-    const loader_div = `<div class="dynamic_loader"><img class="loader-gif" src="https://i.gifer.com/ZZ5H.gif" alt="loading" /><span class="loader-text">${message}</span></div>`
+    const loader_div = `<div class="dynamic_loader"><img class="loader-gif" width="40" height="40" src="https://i.gifer.com/ZZ5H.gif" alt="loading" /><span class="loader-text">${message}</span></div>`
     parent.insertAdjacentHTML('beforeend', loader_div) ;
 }
 

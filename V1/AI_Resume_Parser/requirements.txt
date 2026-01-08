@@ -1,7 +1,8 @@
-Flask
-gunicorn
-PyMuPDF
-Flask-WTF
-#spacy
-#en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
-scikit-learn
+Flask==3.1.2
+gunicorn==23.0.0
+PyMuPDF==1.26.7
+Flask-WTF==1.2.2
+spacy==3.7.1
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
+scikit-learn==1.8.0
+#python=="3.13.4"   THIS VERSION OF PYTHON IS USED IN THIS PROJECT
