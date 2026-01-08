@@ -40,12 +40,12 @@ globals.upload_btn.addEventListener("click", () => {
 //     raw_output.innerText = text ;
 // }
 
-globals.read_btn.addEventListener("click",()=>{
+globals.read_btn.addEventListener("click",() => {
     console.log("RAW TEXT");
 
     // const file = globals.get_file ;
     // const pdf = file.files[0] ;
-
+    globals.clear_all_output_divs() ;
     fetchReadData() ;
 
     // let text = "ssfdfjhn" ;
@@ -55,6 +55,7 @@ globals.read_btn.addEventListener("click",()=>{
 
 globals.contact_btn.addEventListener("click", () => {
     console.log("CONTACT INFO") ;
+    globals.clear_all_output_divs() ;
     fetchContactData() ;
 }) ;
 
@@ -77,7 +78,7 @@ globals.analyze_btn.addEventListener("click", () => {
     // file = get_file;
     // const file = globals.get_file ;
     // const pdf = file.files[0] ;
-
+    globals.clear_all_output_divs() ;
     fetchAnalyzeData() ;
 
     // let text = "ssfdfjhn";
@@ -100,7 +101,8 @@ const fetchReadData = async() => {
     else {
         console.log("Select any pdf...") ;
         return ;
-    }
+    }    
+    globals.show_loader("raw_text", "Loading Raw Text....") ;
     try {
         const response = await fetch(globals.read_api, {
             method: 'POST',
@@ -118,6 +120,7 @@ const fetchReadData = async() => {
     }
     finally {
         console.log(`Task Completed`) ;
+        globals.hide_loader("raw_text") ;
     }
 }
 
@@ -133,6 +136,7 @@ const fetchContactData = async() => {
         console.log("Select any pdf...") ;
         return ;
     }
+    globals.show_loader("contact_info", "Loading Contacts....") ;
     try {
         const response = await fetch(globals.contact_api, {
             method: 'POST',
@@ -143,9 +147,9 @@ const fetchContactData = async() => {
         }
         const result = await response.json() ;
         console.log("Data fetched:", result);
-        globals.contact_output.innerText = `Email: ${result.contact.Emails || ""}\n
-                                            Phone: ${result.contact.Phones || ""}\n
-                                            Linked In: ${result.contact.LinkedIn || ""}\n
+        globals.contact_output.innerText = `Email: ${result.contact.Emails || ""}
+                                            Phone: ${result.contact.Phones || ""}
+                                            Linked In: ${result.contact.LinkedIn || ""}
                                             Github: ${result.contact.Github || ""}` ;
     }
     catch(error) {
@@ -153,6 +157,7 @@ const fetchContactData = async() => {
     }
     finally {
         console.log(`Task Completed`) ;
+        globals.hide_loader("contact_info") ;
     }
 }
 
@@ -173,6 +178,8 @@ const fetchAnalyzeData = async() => {
     if (globals.jd) {
         form_data.append("job_desc", globals.jd);
     }
+    globals.show_loader("score", "Loading Score....") ;
+    globals.show_loader("gap_analysis", "Loading Gaps....") ;
     try {
         const response = await fetch(globals.analyze_api, {
             method: 'POST',
@@ -196,5 +203,7 @@ const fetchAnalyzeData = async() => {
     }
     finally {
         console.log(`Task Completed`) ;
+        globals.hide_loader("score") ;
+        globals.hide_loader("gap_analysis") ;
     }
 }

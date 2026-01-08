@@ -21,4 +21,30 @@ export const contact_btn = document.getElementById("contact_btn") ;
 export const analyze_btn = document.getElementById("analyze_btn") ;
 export const upload_btn = document.getElementById("upload_btn") ;
 
+export const clear_all_output_divs = () => {
+    raw_output.innerText = "" ;
+    contact_output.innerText = "" ;
+    gap_output.innerText = "" ;
+    score_output.innerText = "" ;
+    chart_output.innerText = "" ;
+}
+
+export const show_loader = (parentId, message = "Loading...") => {
+    const parent = document.getElementById(parentId);
+    if (!parent) return;
+    const loader_div = `<div class="dynamic_loader"><img class="loader-gif" src="https://i.gifer.com/ZZ5H.gif" alt="loading" /><span class="loader-text">${message}</span></div>`
+    parent.insertAdjacentHTML('beforeend', loader_div) ;
+}
+
+export const hide_loader = (parentId) => {
+    const parent = document.getElementById(parentId);
+    if (!parent) return;
+    const loader = parent.querySelector(".dynamic_loader") ;
+    if(loader) {
+        loader.remove() ;
+    }
+}
+
+
+
 // export  {get_file};
