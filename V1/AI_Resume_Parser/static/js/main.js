@@ -143,7 +143,10 @@ const fetchContactData = async() => {
         }
         const result = await response.json() ;
         console.log(`Data fetched: ${result}`) ;
-        globals.contact_output.innerText = result.contact ;
+        globals.contact_output.innerText = `Email: ${result.contact.Emails}\n
+                                            Phone: ${result.contact.Phones}\n
+                                            Linked In: ${result.contact.LinkedIn}\n
+                                            Github: ${result.contact.Github}` ;
     }
     catch(error) {
         console.log(`Error: ${error}`) ;

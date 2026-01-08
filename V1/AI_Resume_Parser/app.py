@@ -36,7 +36,7 @@ def contact_info():
 	try:
 		raw_text = parser.exract_text_from_pdf(my_pdf)
 		contact = parser.extract_contact_info(raw_text)
-		return contact
+		return jsonify({'contact': contact})
 	except Exception as e:
 		return jsonify({'Error': str(e)}), 500
 
