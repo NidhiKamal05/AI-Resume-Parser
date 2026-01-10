@@ -2,100 +2,6 @@
 import * as globals from "./global.js" ;
 // import {get_file}  from "./global.js" ;
 
-// onclick=upload()
-// const upload = () => {
-//     console.log("UPLOAD") ;
-//     file = get_file ;
-//     // file = document.getElementById("pdf_file") ;
-//     if(file.files.length > 0) {
-//         pdf = file.files[0] ;
-//         console.log(pdf.name) ;
-//     }
-//     else {
-//         console.log("Select any pdf...") ;
-//     }
-// }
-
-globals.upload_btn.addEventListener("click", () => {
-    console.log("UPLOAD") ;
-
-    const file = globals.get_file ;
-
-    if(file.files.length > 0) {
-        const pdf = file.files[0] ;
-        console.log(pdf.name) ;
-    }
-    else {
-        console.log("Select any pdf...") ;
-    }
-}) ;
-
-
-// onclick=read_text()
-// const read_text = () => {
-//     console.log("RAW TEXT") ;
-//     // pdf = document.getElementById("pdf_file") ;
-//     file = get_file ;
-//     text = "ssfdfjhn" ;
-//     raw_output.innerText = text ;
-// }
-
-globals.read_btn.addEventListener("click",() => {
-    console.log("RAW TEXT");
-
-    // const file = globals.get_file ;
-    // const pdf = file.files[0] ;
-    globals.clear_all_output_divs() ;
-    fetchReadData() ;
-
-    // let text = "ssfdfjhn" ;
-    // globals.raw_output.innerText = text ;
-});
-
-
-globals.contact_btn.addEventListener("click", () => {
-    console.log("CONTACT INFO") ;
-    globals.clear_all_output_divs() ;
-    fetchContactData() ;
-}) ;
-
-
-globals.entities_btn.addeventListener("click", () => {
-    console.log("ENTITIES") ;
-    globals.clear_all_output_divs() ;
-    fetchEntitiesData() ;
-}) ;
-
-
-// onclick=analyze_data()
-// function analyze_data() {
-//     console.log("ANALYZE DATA");
-//     // file = document.getElementById("pdf_file") ;
-//     file = get_file;
-//     pdf = file.files[0];
-//     text = "ssfdfjhn";
-//     gap_output.innerText = text;
-//     score.innerText = text;
-//     chart_output.innerText = text;
-// }
-
-globals.analyze_btn.addEventListener("click", () => {
-    console.log("ANALYZE DATA");
-
-    // file = get_file;
-    // const file = globals.get_file ;
-    // const pdf = file.files[0] ;
-    globals.clear_all_output_divs() ;
-    fetchAnalyzeData() ;
-
-    // let text = "ssfdfjhn";
-
-    // globals.gap_output.innerText = text;
-    // globals.score_output.innerText = text;
-    // globals.chart_output.innerText = text;
-}) ;
-
-
 const fetchReadData = async() => {
     const file = globals.get_file ;
     // const my_file = globals.get_file.files[0] ;
@@ -253,3 +159,98 @@ const fetchAnalyzeData = async() => {
         globals.hide_loader("gap_analysis") ;
     }
 }
+
+
+
+// onclick=upload()
+// const upload = () => {
+//     console.log("UPLOAD") ;
+//     file = get_file ;
+//     // file = document.getElementById("pdf_file") ;
+//     if(file.files.length > 0) {
+//         pdf = file.files[0] ;
+//         console.log(pdf.name) ;
+//     }
+//     else {
+//         console.log("Select any pdf...") ;
+//     }
+// }
+
+globals.upload_btn.addEventListener("click", () => {
+    console.log("UPLOAD") ;
+
+    const file = globals.get_file ;
+
+    if(file.files.length > 0) {
+        const pdf = file.files[0] ;
+        console.log(pdf.name) ;
+    }
+    else {
+        console.log("Select any pdf...") ;
+    }
+}) ;
+
+
+// onclick=read_text()
+// const read_text = () => {
+//     console.log("RAW TEXT") ;
+//     // pdf = document.getElementById("pdf_file") ;
+//     file = get_file ;
+//     text = "ssfdfjhn" ;
+//     raw_output.innerText = text ;
+// }
+
+globals.read_btn.addEventListener("click",() => {
+    console.log("RAW TEXT");
+
+    // const file = globals.get_file ;
+    // const pdf = file.files[0] ;
+    globals.clear_all_output_divs() ;
+    fetchReadData() ;
+
+    // let text = "ssfdfjhn" ;
+    // globals.raw_output.innerText = text ;
+});
+
+
+globals.contact_btn.addEventListener("click", () => {
+    console.log("CONTACT INFO") ;
+    globals.clear_all_output_divs() ;
+    fetchContactData() ;
+}) ;
+
+
+globals.entities_btn.addEventListener("click", () => {
+    console.log("ENTITIES") ;
+    globals.clear_all_output_divs() ;
+    fetchEntitiesData() ;
+}) ;
+
+
+// onclick=analyze_data()
+// function analyze_data() {
+//     console.log("ANALYZE DATA");
+//     // file = document.getElementById("pdf_file") ;
+//     file = get_file;
+//     pdf = file.files[0];
+//     text = "ssfdfjhn";
+//     gap_output.innerText = text;
+//     score.innerText = text;
+//     chart_output.innerText = text;
+// }
+
+globals.analyze_btn.addEventListener("click", () => {
+    console.log("ANALYZE DATA");
+
+    // file = get_file;
+    // const file = globals.get_file ;
+    // const pdf = file.files[0] ;
+    globals.clear_all_output_divs() ;
+    fetchAnalyzeData() ;
+
+    // let text = "ssfdfjhn";
+
+    // globals.gap_output.innerText = text;
+    // globals.score_output.innerText = text;
+    // globals.chart_output.innerText = text;
+}) ;
