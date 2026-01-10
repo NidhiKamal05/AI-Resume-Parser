@@ -14,6 +14,7 @@ def parse_resume():
 	# Renders the index.html file inside the templates folder
 	return render_template('parse.html')
 
+
 @app.route('/api/read', methods=['POST'])
 def read_pdf():
 	if 'my_pdf' not in request.files:
@@ -37,6 +38,19 @@ def contact_info():
 		raw_text = parser.extract_text_from_pdf(my_pdf)
 		contact = parser.extract_contact_info(raw_text)
 		return jsonify({'contact': contact})
+	except Exception as e:
+		return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/entities', methods=['POST'])
+def resume_entities():
+	if 'my_pdf' not in request.files:
+		return jsonify({'error': 'No file uploaded'}), 400
+	my_pdf = request.files['my_pdf']
+	try:
+		raw_text = parser.extract_text_from_pdf(my_pdf)
+		entities = parser.extract_entities(raw_text)
+		return jsonify({'entities': entities})
 	except Exception as e:
 		return jsonify({'error': str(e)}), 500
 

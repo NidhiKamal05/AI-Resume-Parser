@@ -1,5 +1,10 @@
 import fitz
+import spacy
 import re
+
+
+nlp = spacy.load("en_core_web_sm")
+
 
 def read_resume(text):
     return text
@@ -7,30 +12,34 @@ def read_resume(text):
 
 
 def extract_text_from_pdf(pdf_file):
-  """
-  PDF text reader
-  """
-  #return pdf_file.name
-  try:
-    # doc = fitz.open(pdf_file.name)
-    # doc = fitz.open(stream=pdf_file.stream.read(), filetype="pdf")
+    """
+    PDF text reader
+    """
+    #return pdf_file.name
+    try:
+        # doc = fitz.open(pdf_file.name)
+        # doc = fitz.open(stream=pdf_file.stream.read(), filetype="pdf")
 
-    pdf_bytes = pdf_file.read()
-    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    doc.close()
+        pdf_bytes = pdf_file.read()
+        
+        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
 
-    cleaned_text = " ".join(text.split())
+        text = ""
 
-    if not cleaned_text.strip():
-      return "Error: No text found, either it's not in pdf form or it's scanned image"
+        for page in doc:
+            text += page.get_text()
 
-    return cleaned_text
+        doc.close()
 
-  except Exception as e:
-    return f"Error occurred: {str(e)}"
+        cleaned_text = " ".join(text.split())
+
+        if not cleaned_text.strip():
+            return "Error: No text found, either it's not in pdf form or it's scanned image"
+
+        return cleaned_text
+
+    except Exception as e:
+        return f"Error occurred: {str(e)}"
 
 
 
@@ -54,4 +63,31 @@ def extract_contact_info(text):
         "Phones": phones[0] if phones else "Phone Not Found",
         "LinkedIn": linkedin[0] if linkedin else "Link Not Found",
         "Github": github[0] if github else "Link Not Found"
+    }
+
+
+
+def extract_entities(text):
+    """
+    Identify Names and Organizations using spaCy
+    """
+
+    doc = nlp(text)
+    entities = {
+        "Name": [],
+        "Organizations": []
+    }
+
+    for ent in doc.ents:
+        if ent.label_ == "PERSON":
+            entities["Name"].append(ent.text)
+        elif ent.label_ == "ORG":
+            entities["Organizations"].append(ent.text)
+
+    primary_name = entities["Name"][0] if entities["Name"] else "Not Identified"
+
+    return {
+        "Candidate_Name": primary_name,
+        "All_Names_Found": list(set(entities["Name"])),
+        "Companies/Institutions": list(set(entities["Organizations"]))
     }

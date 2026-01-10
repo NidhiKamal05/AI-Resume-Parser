@@ -60,6 +60,13 @@ globals.contact_btn.addEventListener("click", () => {
 }) ;
 
 
+globals.entities_btn.addeventListener("click", () => {
+    console.log("ENTITIES") ;
+    globals.clear_all_output_divs() ;
+    fetchEntitiesData() ;
+}) ;
+
+
 // onclick=analyze_data()
 // function analyze_data() {
 //     console.log("ANALYZE DATA");
@@ -161,6 +168,45 @@ const fetchContactData = async() => {
     }
 }
 
+
+const fetchEntitiesData = async() => {
+    const file = globals.get_file ;
+    const form_data = new FormData(globals.my_form) ;
+    if(file.files.length > 0) {
+        const pdf = file.files[0] ;
+        console.log(pdf.name) ;
+        form_data.append('my_pdf', pdf) ;
+    }
+    else {
+        console.log("Select any pdf...") ;
+        return ;
+    }
+    globals.show_loader("entities", "Loading Entities") ;
+    try {
+        const response = await fetch(globals.entities_api, {
+            method: 'POST',
+            body: form_data,
+        }) ;
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`) ;
+        }
+        const result = await response.json() ;
+        console.log("Data fetched:", result) ;
+        const candidate_name = result.entities.Candidate_Name || "" ;
+        const all_names = Array.isArray(result.entities.All_Names_Found) ? result.entities.All_Names_Found.join(", ") : result.entities.All_Names_Found || "" ;
+        const organization = Array.isArray(result.entities["Companies/Institutions"]) ? result.entities["Companies/Institutions"].join(", ") : result.entities["Companies/Institutions"] || "" ;
+        globals.entities_output.innerText = `Candidate Name: ${candidate_name}\n` + `All Names Found: ${all_names}` + `Organization: ${organization}` ;
+    }
+    catch(error) {
+        console.log(`Error: ${error}`) ;
+    }
+    finally {
+        console.log(`Task Completed`) ;
+        globals.hide_loader("entities") ;
+    }
+}
+
+
 const fetchAnalyzeData = async() => {
     // const my_file = globals.get_file.files[0] ;
     const job_desc = globals.jd ;
@@ -192,8 +238,8 @@ const fetchAnalyzeData = async() => {
         const result = await response.json();
         console.log("Data fetched:", result);
         globals.score_output.innerText=JSON.stringify(result.Score);
-        const missing = Array.isArray(result.Missing_Skills) ? result.Missing_Skills.join(", ") : result.Missing_Skills;
-        const matched = Array.isArray(result.Matched_Skills) ? result.Matched_Skills.join(", ") : result.Matched_Skills;
+        const missing = Array.isArray(result.Missing_Skills) ? result.Missing_Skills.join(", ") : result.Missing_Skills ;
+        const matched = Array.isArray(result.Matched_Skills) ? result.Matched_Skills.join(", ") : result.Matched_Skills ;
         globals.gap_output.innerText = `Gaps = ${missing}\nMatched Skills = ${matched}`;
         // globals.gap_output.innerText=`Gaps = ${result.Missing_Skills} \n Matched Skills=${result.Matched_Skills}`;
         // globals.score_output.innerText=JSON.stringify(result.Score);
