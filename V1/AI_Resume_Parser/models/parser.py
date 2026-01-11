@@ -98,7 +98,7 @@ def extract_entities(text):
 
 def extract_skills(text):
     nlp = spacy.load("en_core_web_sm")
-    matcher = PhraseMatcher(nlp.vocab, atrr = "LOWER")
+    matcher = PhraseMatcher(nlp.vocab, attr = "LOWER")
 
     # Skill categories
     skills_db = {
