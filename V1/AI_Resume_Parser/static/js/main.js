@@ -87,7 +87,7 @@ const fetchEntitiesData = async() => {
         console.log("Select any pdf...") ;
         return ;
     }
-    globals.show_loader("entities", "Loading Entities") ;
+    globals.show_loader("entities", "Loading Entities...") ;
     try {
         const response = await fetch(globals.entities_api, {
             method: 'POST',
@@ -109,6 +109,44 @@ const fetchEntitiesData = async() => {
     finally {
         console.log(`Task Completed`) ;
         globals.hide_loader("entities") ;
+    }
+}
+
+const fetchSkills = async() => {
+    const file = globals.get_file ;
+    const form_data = new FormData(globals.my_form) ;
+    if(file.files.length > 0) {
+        const pdf = file.files[0] ;
+        console.log(pdf.name) ;
+        form_data.append('my_pdf', pdf) ;
+    }
+    else {
+        console.log("Select any pdf...") ;
+        return ;
+    }
+    globals.show_loader("skills", "Loading Skills...") ;
+    try {
+        const response = await fetch(globals.skills_api, {
+            method: 'POST',
+            body: form_data,
+        }) ;
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`) ;
+        }
+        const result = await response.json() ;
+        console.log("Data fetched:", result) ;
+        const prog_lang = Array.isArray(result.skills["Programming"]) ? result.skills["Programming"].join(", ") : result.skills["Programming"] || "" ;
+        const ml = Array.isArray(result.skills["Machine Learning"]) ? result.skills["Machine Learning"].join(", ") : result.skills["Machine Learning"] || "" ;
+        const cloud = Array.isArray(result.skills["Cloud"]) ? result.skills["Cloud"].join(", ") : result.skills["Cloud"] || "" ;
+        const tools = Array.isArray(result.skills["Tools"]) ? result.skills["Tools"].join(", ") : result.skills["Tools"] || "" ;
+        globals.skills_output.innerText = `Programming: ${prog_lang}\n` + `Machine Learning: ${ml}\n` + `Cloud: ${cloud}\n` + `Tools: ${tools}` ;
+    }
+    catch(error) {
+        console.log(`Error: ${error}`) ;
+    }
+    finally {
+        console.log(`Task Completed`) ;
+        globals.hide_loader("skills") ;
     }
 }
 
@@ -224,6 +262,13 @@ globals.entities_btn.addEventListener("click", () => {
     console.log("ENTITIES") ;
     globals.clear_all_output_divs() ;
     fetchEntitiesData() ;
+}) ;
+
+
+globals.skills_btn.addEventListener("click", () => {
+    console.log("SKILLS") ;
+    globals.clear_all_output_divs() ;
+    fetchSkills() ;
 }) ;
 
 

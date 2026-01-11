@@ -55,6 +55,19 @@ def resume_entities():
 		return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/skills', methods=['POST'])
+def find_skills():
+	if 'my_pdf' not in request.files:
+		return jsonify({'error': 'No file uploaded'}), 400
+	my_pdf = request.files['my_pdf']
+	try:
+		raw_text = parser.extract_text_from_pdf(my_pdf)
+		skills = parser.extract_skills(raw_text)
+		return jsonify({'skills': skills})
+	except Exception as e:
+		return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze_resume():
 	if 'my_pdf' not in request.files:

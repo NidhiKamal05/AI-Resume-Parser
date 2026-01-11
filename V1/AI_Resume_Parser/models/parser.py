@@ -2,6 +2,8 @@ import fitz
 import spacy
 import re
 
+from spacy.matcher import PhraseMatcher
+
 
 nlp = spacy.load("en_core_web_sm")
 
@@ -91,3 +93,39 @@ def extract_entities(text):
         "All_Names_Found": list(set(entities["Name"])),
         "Companies/Institutions": list(set(entities["Organizations"]))
     }
+
+
+
+def extract_skills(text):
+    nlp = spacy.load("en_core_web_sm")
+    matcher = PhraseMatcher(nlp.vocab, atrr = "LOWER")
+
+    # Skill categories
+    skills_db = {
+        "Programming": ["Python", "Java", "C++", "JavaScript", "SQL", "GO", "Rust"],
+        "Machine Learning": ["PyTorch", "TensorFlow", "Scikit-learn", "NLP", "Computer Vision"],
+        "Cloud": ["AWS", "Azure", "Docker", "Kubernetes", "GCP"],
+        "Tools": ["Git", "Jira", "Excel", "Tableau"]
+    }
+
+    # Add petterns to matcher
+    for category, skill_list in skills_db.items():
+        patterns = [nlp.make_doc(skill) for skill in skill_list]
+        matcher.add(category, patterns)
+    
+    doc = nlp(text)
+    matches = matcher(doc)
+
+    # Extraction of found skills
+    found_skills = {}
+    for match_id, start, end in matches:
+        category = nlp.vocab.strings[match_id]
+        skill = doc[start:end].text
+
+        if category not in found_skills:
+            found_skills[category] = set()
+        
+        found_skills[category].add(skill)
+    
+    # Conversion from sets to list for JSON output
+    return {k: list(v) for k, v in found_skills.items()}
