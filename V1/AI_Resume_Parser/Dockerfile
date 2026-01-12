@@ -2,7 +2,7 @@
 FROM python:3.9-slim-buster
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /AI-Resume-Parser/V1/AI_Resume_Parser
 
 # Install system dependencies required by PyMuPDF
 RUN apt-get update && apt-get install -y --no-install-recommends \
