@@ -109,36 +109,16 @@ def extract_skills(text):
     # }
 	
 	skills_db = {
-        "Programming": [
-            "Python", "Java", "C++", "C", "JavaScript", "SQL", "Go", "Rust", "R", "PHP"
-        ],
-        "Web Development": [
-            "HTML", "CSS", "React", "Angular", "Node.js", "Django", "Flask", "Spring Boot"
-        ],
-        "Database & Storage": [
-            "MySQL", "PostgreSQL", "MongoDB", "Oracle", "Redis", "Firebase"
-        ],
-        "Operating Systems & Networking": [
-            "Linux", "Unix", "Windows Server", "Computer Networks", "TCP/IP", "Network Security"
-        ],
-        "AI & Machine Learning": [
-            "PyTorch", "TensorFlow", "Scikit-learn", "Keras", "NLP", "Computer Vision", "Reinforcement Learning"
-        ],
-        "Data Science & Analytics": [
-            "Pandas", "NumPy", "Matplotlib", "Seaborn", "Power BI", "Tableau", "Excel", "Big Data (Hadoop, Spark)"
-        ],
-        "Cloud & DevOps": [
-            "AWS", "Azure", "Google Cloud Platform", "Docker", "Kubernetes", "CI/CD", "Terraform", "Jenkins"
-        ],
-        "Cybersecurity": [
-            "Cryptography", "Ethical Hacking", "Penetration Testing", "Firewalls", "SIEM Tools", "Security Auditing"
-        ],
-        "Software Engineering Concepts": [
-            "OOP", "Design Patterns", "Agile", "Scrum", "Version Control (Git)", "Testing & QA"
-        ],
-        "Tools": [
-            "Git", "Jira", "Confluence", "VS Code", "IntelliJ IDEA", "Eclipse", "MATLAB"
-        ]
+        "Programming": ["Python", "Java", "C++", "C", "JavaScript", "SQL", "Go", "Rust", "R", "PHP"],
+        "Web Development": ["HTML", "CSS", "React", "Angular", "Node.js", "Django", "Flask", "Spring Boot"],
+        "Database & Storage": ["MySQL", "PostgreSQL", "MongoDB", "Oracle", "Redis", "Firebase"],
+        "Operating Systems & Networking": ["Linux", "Unix", "Windows Server", "Computer Networks", "TCP/IP", "Network Security"],
+        "AI & Machine Learning": ["PyTorch", "TensorFlow", "Scikit-learn", "Keras", "NLP", "Computer Vision", "Reinforcement Learning"],
+        "Data Science & Analytics": ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Power BI", "Tableau", "Excel", "Big Data (Hadoop, Spark)"],
+        "Cloud & DevOps": ["AWS", "Azure", "Google Cloud Platform", "Docker", "Kubernetes", "CI/CD", "Terraform", "Jenkins"],
+        "Cybersecurity": ["Cryptography", "Ethical Hacking", "Penetration Testing", "Firewalls", "SIEM Tools", "Security Auditing"],
+        "Software Engineering Concepts": ["OOP", "Design Patterns", "Agile", "Scrum", "Version Control (Git)", "Testing & QA"],
+        "Tools": ["Git", "Jira", "Confluence", "VS Code", "IntelliJ IDEA", "Eclipse", "MATLAB"]
     }
 
     # Add petterns to matcher
