@@ -135,11 +135,32 @@ const fetchSkills = async() => {
         }
         const result = await response.json() ;
         console.log("Data fetched:", result) ;
+        // const prog_lang = Array.isArray(result.skills["Programming"]) ? result.skills["Programming"].join(", ") : result.skills["Programming"] || "" ;
+        // const ml = Array.isArray(result.skills["Machine Learning"]) ? result.skills["Machine Learning"].join(", ") : result.skills["Machine Learning"] || "" ;
+        // const cloud = Array.isArray(result.skills["Cloud"]) ? result.skills["Cloud"].join(", ") : result.skills["Cloud"] || "" ;
+        // const tools = Array.isArray(result.skills["Tools"]) ? result.skills["Tools"].join(", ") : result.skills["Tools"] || "" ;
+        // globals.skills_output.innerText = `Programming: ${prog_lang}\n` + `Machine Learning: ${ml}\n` + `Cloud: ${cloud}\n` + `Tools: ${tools}` ;
+
         const prog_lang = Array.isArray(result.skills["Programming"]) ? result.skills["Programming"].join(", ") : result.skills["Programming"] || "" ;
-        const ml = Array.isArray(result.skills["Machine Learning"]) ? result.skills["Machine Learning"].join(", ") : result.skills["Machine Learning"] || "" ;
-        const cloud = Array.isArray(result.skills["Cloud"]) ? result.skills["Cloud"].join(", ") : result.skills["Cloud"] || "" ;
+        const web_dev = Array.isArray(result.skills["Web Development"]) ? result.skills["Web Development"].join(", ") : result.skills["Web Development"] || "" ;
+        const db = Array.isArray(result.skills["Database & Storage"]) ? result.skills["Database & Storage"].join(", ") : result.skills["Database & Storage"] || "" ;
+        const os = Array.isArray(result.skills["Operating Systems & Networking"]) ? result.skills["Operating Systems & Networking"].join(", ") : result.skills["Operating Systems & Networking"] || "" ;
+        const ai_ml = Array.isArray(result.skills["AI & Machine Learning"]) ? result.skills["AI & Machine Learning"].join(", ") : result.skills["AI & Machine Learning"] || "" ;
+        const ds = Array.isArray(result.skills["Data Science & Analytics"]) ? result.skills["Data Science & Analytics"].join(", ") : result.skills["Data Science & Analytics"] || "" ;
+        const cloud = Array.isArray(result.skills["Cloud & DevOps"]) ? result.skills["Cloud & DevOps"].join(", ") : result.skills["Cloud & DevOps"] || "" ;
+        const cyber_security = Array.isArray(result.skills["Cybersecurity"]) ? result.skills["Cybersecurity"].join(", ") : result.skills["Cybersecurity"] || "" ;
+        const se = Array.isArray(result.skills["Software Engineering Concepts"]) ? result.skills["Software Engineering Concepts"].join(", ") : result.skills["Software Engineering Concepts"] || "" ;
         const tools = Array.isArray(result.skills["Tools"]) ? result.skills["Tools"].join(", ") : result.skills["Tools"] || "" ;
-        globals.skills_output.innerText = `Programming: ${prog_lang}\n` + `Machine Learning: ${ml}\n` + `Cloud: ${cloud}\n` + `Tools: ${tools}` ;
+        globals.skills_output.innerText = `Programming: ${prog_lang}\n` + 
+                                          `Web Development: ${web_dev}\n` + 
+                                          `Database & Storage: ${db}\n` + 
+                                          `Operating Systems & Networking: ${os}\n` + 
+                                          `AI & Machine Learning: ${ai_ml}\n` + 
+                                          `Data Science & Analytics: ${ds}\n` + 
+                                          `Cloud & DevOps: ${cloud}\n` + 
+                                          `Cybersecurity: ${cyber_security}\n` + 
+                                          `Software Engineering Concepts: ${se}\n` + 
+                                          `Tools: ${tools}` ;
     }
     catch(error) {
         console.log(`Error: ${error}`) ;
@@ -147,6 +168,58 @@ const fetchSkills = async() => {
     finally {
         console.log(`Task Completed`) ;
         globals.hide_loader("skills") ;
+    }
+}
+
+
+const fetchJDSkills = async() => {
+    const job_desc = globals.jd ;
+    const form_data = new FormData(globals.my_form);
+    if(job_desc) {
+        form_data.append("job_desc", job_desc) ;
+    }
+    else {
+        console.log("Job Description is empty.....") ;
+        return ;
+    }
+    globals.show_loader("jd_skills", "Loading JD Skills....") ;
+    try {
+        const response = await fetch(globals.jd_skills_api, {
+            method: 'POST',
+            body: form_data,
+        }) ;
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`) ;
+        }
+        const result = await response.json() ;
+        console.log("Data fetched:", result) ;
+        const prog_lang = Array.isArray(result.jd_skills["Programming"]) ? result.jd_skills["Programming"].join(", ") : result.jd_skills["Programming"] || "" ;
+        const web_dev = Array.isArray(result.jd_skills["Web Development"]) ? result.jd_skills["Web Development"].join(", ") : result.jd_skills["Web Development"] || "" ;
+        const db = Array.isArray(result.jd_skills["Database & Storage"]) ? result.jd_skills["Database & Storage"].join(", ") : result.jd_skills["Database & Storage"] || "" ;
+        const os = Array.isArray(result.jd_skills["Operating Systems & Networking"]) ? result.jd_skills["Operating Systems & Networking"].join(", ") : result.jd_skills["Operating Systems & Networking"] || "" ;
+        const ai_ml = Array.isArray(result.jd_skills["AI & Machine Learning"]) ? result.jd_skills["AI & Machine Learning"].join(", ") : result.jd_skills["AI & Machine Learning"] || "" ;
+        const ds = Array.isArray(result.jd_skills["Data Science & Analytics"]) ? result.jd_skills["Data Science & Analytics"].join(", ") : result.jd_skills["Data Science & Analytics"] || "" ;
+        const cloud = Array.isArray(result.jd_skills["Cloud & DevOps"]) ? result.jd_skills["Cloud & DevOps"].join(", ") : result.jd_skills["Cloud & DevOps"] || "" ;
+        const cyber_security = Array.isArray(result.jd_skills["Cybersecurity"]) ? result.jd_skills["Cybersecurity"].join(", ") : result.jd_skills["Cybersecurity"] || "" ;
+        const se = Array.isArray(result.jd_skills["Software Engineering Concepts"]) ? result.jd_skills["Software Engineering Concepts"].join(", ") : result.jd_skills["Software Engineering Concepts"] || "" ;
+        const tools = Array.isArray(result.jd_skills["Tools"]) ? result.jd_skills["Tools"].join(", ") : result.jd_skills["Tools"] || "" ;
+        globals.jd_skills_output.innerText = `Programming: ${prog_lang}\n` + 
+                                             `Web Development: ${web_dev}\n` + 
+                                             `Database & Storage: ${db}\n` + 
+                                             `Operating Systems & Networking: ${os}\n` + 
+                                             `AI & Machine Learning: ${ai_ml}\n` + 
+                                             `Data Science & Analytics: ${ds}\n` + 
+                                             `Cloud & DevOps: ${cloud}\n` + 
+                                             `Cybersecurity: ${cyber_security}\n` + 
+                                             `Software Engineering Concepts: ${se}\n` + 
+                                             `Tools: ${tools}` ;
+    }
+    catch(error) {
+        console.log(`Error: ${error}`) ;
+    }
+    finally {
+        console.log(`Task Completed`) ;
+        globals.hide_loader("jd_skills") ;
     }
 }
 
@@ -239,15 +312,9 @@ globals.upload_btn.addEventListener("click", () => {
 // }
 
 globals.read_btn.addEventListener("click",() => {
-    console.log("RAW TEXT");
-
-    // const file = globals.get_file ;
-    // const pdf = file.files[0] ;
+    console.log("RESUME TEXT");
     globals.clear_all_output_divs() ;
     fetchReadData() ;
-
-    // let text = "ssfdfjhn" ;
-    // globals.raw_output.innerText = text ;
 });
 
 
@@ -272,6 +339,13 @@ globals.skills_btn.addEventListener("click", () => {
 }) ;
 
 
+globals.jd_skills_btn.addEventListener("click", () => {
+    console.log("JD SKILLS") ;
+    globals.clear_all_output_divs() ;
+    fetchJDSkills() ;
+}) ;
+
+
 // onclick=analyze_data()
 // function analyze_data() {
 //     console.log("ANALYZE DATA");
@@ -286,16 +360,6 @@ globals.skills_btn.addEventListener("click", () => {
 
 globals.analyze_btn.addEventListener("click", () => {
     console.log("ANALYZE DATA");
-
-    // file = get_file;
-    // const file = globals.get_file ;
-    // const pdf = file.files[0] ;
     globals.clear_all_output_divs() ;
     fetchAnalyzeData() ;
-
-    // let text = "ssfdfjhn";
-
-    // globals.gap_output.innerText = text;
-    // globals.score_output.innerText = text;
-    // globals.chart_output.innerText = text;
 }) ;

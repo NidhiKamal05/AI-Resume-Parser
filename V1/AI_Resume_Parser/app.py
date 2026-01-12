@@ -68,6 +68,18 @@ def find_skills():
 		return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/jd_skills', methods=['POST'])
+def find_jd_skills():
+	job_desc = request.form.get('job_desc')
+	if not job_desc:
+		return jsonify({'error': 'No job description provided'}), 400
+	try:
+		jd_skills = parser.extract_skills(job_desc)
+		return jsonify({'jd_skills': jd_skills})
+	except Exception as e:
+		return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze_resume():
 	if 'my_pdf' not in request.files:
