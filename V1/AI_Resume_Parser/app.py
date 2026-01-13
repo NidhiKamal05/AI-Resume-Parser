@@ -70,7 +70,7 @@ def find_skills():
 
 @app.route('/api/jd_skills', methods=['POST'])
 def find_jd_skills():
-	job_desc = request.form.get('job_desc')
+	job_desc = request.form.get('job_desc', "").strip()
 	if not job_desc:
 		return jsonify({'error': 'No job description provided'}), 400
 	try:

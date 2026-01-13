@@ -102,13 +102,13 @@ def extract_skills(text):
 
     # Skill categories
     # skills_db = {
-        # "Programming": ["Python", "Java", "C++", "JavaScript", "SQL", "GO", "Rust"],
-        # "Machine Learning": ["PyTorch", "TensorFlow", "Scikit-learn", "NLP", "Computer Vision"],
-        # "Cloud": ["AWS", "Azure", "Docker", "Kubernetes", "GCP"],
-        # "Tools": ["Git", "Jira", "Excel", "Tableau"]
+    #     "Programming": ["Python", "Java", "C++", "JavaScript", "SQL", "GO", "Rust"],
+    #     "Machine Learning": ["PyTorch", "TensorFlow", "Scikit-learn", "NLP", "Computer Vision"],
+    #     "Cloud": ["AWS", "Azure", "Docker", "Kubernetes", "GCP"],
+    #     "Tools": ["Git", "Jira", "Excel", "Tableau"]
     # }
-	
-	skills_db = {
+
+    skills_db = {
         "Programming": ["Python", "Java", "C++", "C", "JavaScript", "SQL", "Go", "Rust", "R", "PHP"],
         "Web Development": ["HTML", "CSS", "React", "Angular", "Node.js", "Django", "Flask", "Spring Boot"],
         "Database & Storage": ["MySQL", "PostgreSQL", "MongoDB", "Oracle", "Redis", "Firebase"],
@@ -120,7 +120,7 @@ def extract_skills(text):
         "Software Engineering Concepts": ["OOP", "Design Patterns", "Agile", "Scrum", "Version Control (Git)", "Testing & QA"],
         "Tools": ["Git", "Jira", "Confluence", "VS Code", "IntelliJ IDEA", "Eclipse", "MATLAB"]
     }
-
+    
     # Add petterns to matcher
     for category, skill_list in skills_db.items():
         patterns = [nlp.make_doc(skill) for skill in skill_list]
