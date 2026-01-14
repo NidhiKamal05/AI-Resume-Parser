@@ -253,7 +253,7 @@ const fetchScore = async() => {
         if(!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`) ;
         }
-        const result = response.json() ;
+        const result = await response.json() ;
         console.log("Data fetched:", result) ;
         const score = result.score ;
         globals.score_output.innerText = `Score: ${score}` ;
