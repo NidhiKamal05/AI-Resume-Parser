@@ -3,6 +3,8 @@ import spacy
 import re
 
 from spacy.matcher import PhraseMatcher
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 nlp = spacy.load("en_core_web_sm")
@@ -97,7 +99,7 @@ def extract_entities(text):
 
 
 def extract_skills(text):
-    nlp = spacy.load("en_core_web_sm")
+    # nlp = spacy.load("en_core_web_sm")
     matcher = PhraseMatcher(nlp.vocab, attr = "LOWER")
 
     # Skill categories
@@ -120,7 +122,7 @@ def extract_skills(text):
         "Software Engineering Concepts": ["OOP", "Design Patterns", "Agile", "Scrum", "Version Control (Git)", "Testing & QA"],
         "Tools": ["Git", "Jira", "Confluence", "VS Code", "IntelliJ IDEA", "Eclipse", "MATLAB"]
     }
-    
+
     # Add petterns to matcher
     for category, skill_list in skills_db.items():
         patterns = [nlp.make_doc(skill) for skill in skill_list]
@@ -142,3 +144,32 @@ def extract_skills(text):
     
     # Conversion from sets to list for JSON output
     return {k: list(v) for k, v in found_skills.items()}
+
+
+
+def calculate_match_score(resume_text, job_description):
+    """
+    Similarity score between a resume and a JD
+    """
+
+    resume_skills_dict = extract_skills(resume_text)
+    jd_skills_dict = extract_skills(job_description)
+
+    resume_skills = ", ".join(set(sum(resume_skills_dict.values(), [])))
+    jd_skills = ", ".join(set(sum(jd_skills_dict.values(), [])))
+    
+    text_list = [resume_skills, jd_skills]
+
+    # Initialize Vectorizer
+    vectorizer = TfidfVectorizer(stop_words='english')
+
+    # Transform text into a matrix of numbers(vectors)
+    tfidf_matrix = vectorizer.fit_transform(text_list)
+
+    # Calculate similarity
+    similarity_matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
+
+    # Score as a percentage
+    match_score = round(similarity_matrix[0][0] * 100, 2)
+
+    return match_score

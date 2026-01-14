@@ -224,6 +224,50 @@ const fetchJDSkills = async() => {
 }
 
 
+const fetchScore = async() => {
+    const form_data = new FormData(globals.my_form) ;
+    const file = globals.get_file ;
+    if(file.files.length > 0) {
+        const pdf = file.files[0] ;
+        console.log(pdf.name) ;
+        form_data.append('my_pdf', pdf) ;
+    }
+    else {
+        console.log("Select any pdf...") ;
+        return ;
+    }
+    const job_desc = globals.jd ;
+    if(job_desc) {
+        form_data.append("job_desc", job_desc) ;
+    }
+    else {
+        console.log("Job Description is empty.....") ;
+        return ;
+    }
+    globals.show_loader("score", "Loading Score.....") ;
+    try {
+        const response = await fetch(globals.score_api, {
+            method: 'POST',
+            body: form_data,
+        }) ;
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`) ;
+        }
+        const result = response.json() ;
+        console.log("Data fetched:", result) ;
+        const score = result.score ;
+        globals.score_output.innerText = `Score: ${score}` ;
+    }
+    catch(error){
+        console.log(`Error: ${error}`) ;
+    }
+    finally {
+        console.log(`Task Completed`) ;
+        globals.hide_loader("score") ;
+    }
+}
+
+
 const fetchAnalyzeData = async() => {
     // const my_file = globals.get_file.files[0] ;
     const job_desc = globals.jd ;
@@ -343,6 +387,13 @@ globals.jd_skills_btn.addEventListener("click", () => {
     console.log("JD SKILLS") ;
     globals.clear_all_output_divs() ;
     fetchJDSkills() ;
+}) ;
+
+
+globals.score_btn.addEventListener("click", () => {
+    console.log("SCORE") ;
+    globals.clear_all_output_divs() ;
+    fetchScore() ;
 }) ;
 
 

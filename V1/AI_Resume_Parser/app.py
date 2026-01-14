@@ -80,6 +80,22 @@ def find_jd_skills():
 		return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/score', methods=['POST'])
+def calc_score():
+	if 'my_pdf' not in request.files:
+		return jsonify({'error': 'No file uploaded'}), 400
+	my_pdf = request.files['my_pdf']
+	job_desc = request.form.get('job_desc', "").strip()
+	if not job_desc:
+		return jsonify({'error': 'No job description provided'}), 400
+	try:
+		raw_text = parser.extract_text_from_pdf(my_pdf)
+		score = parser.calculate_match_score(raw_text, job_desc)
+		return jsonify({'score': score})
+	except Exception as e:
+		return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/analyze', methods=['POST'])
 def analyze_resume():
 	if 'my_pdf' not in request.files:
