@@ -292,7 +292,7 @@ const fetchScore = async() => {
 /* FETCH MISSING AND MATCHED SKILLS */
 
 const fetchGaps = async() => {
-    const form_data = new FormData(my_form) ;
+    const form_data = new FormData(globals.my_form) ;
     const file = globals.get_file ;
     if(file.files.length > 0) {
         const pdf = file.files[0] ;
