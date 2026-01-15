@@ -7,6 +7,7 @@ export const entities_api ="https://ai-resume-parser-42a1.onrender.com/api/entit
 export const skills_api ="https://ai-resume-parser-42a1.onrender.com/api/skills";
 export const jd_skills_api ="https://ai-resume-parser-42a1.onrender.com/api/jd_skills";
 export const score_api ="https://ai-resume-parser-42a1.onrender.com/api/score";
+export const gaps_api ="https://ai-resume-parser-42a1.onrender.com/api/gaps";
 export const analyze_api ="https://ai-resume-parser-42a1.onrender.com/api/analyze";
 
 export const my_form = document.getElementById("upload_form") ;
@@ -19,8 +20,9 @@ export const contact_output = document.getElementById("contact_info") ;
 export const entities_output = document.getElementById("entities") ;
 export const skills_output = document.getElementById("skills") ;
 export const jd_skills_output = document.getElementById("jd_skills") ;
-export const gap_output = document.getElementById("gap_analysis") ;
+export const gap_output = document.getElementById("gaps") ;
 export const score_output = document.getElementById("score") ;
+export const recommendation_output = document.getElementById("recommendation") ;
 export const chart_output = document.getElementById("chart") ;
 
 export const read_btn = document.getElementById("read_btn") ;
@@ -29,6 +31,7 @@ export const entities_btn = document.getElementById("entities_btn") ;
 export const skills_btn = document.getElementById("skills_btn") ;
 export const jd_skills_btn = document.getElementById("jd_skills_btn") ;
 export const score_btn = document.getElementById("score_btn") ;
+export const gaps_btn = document.getElementById("gaps_btn") ;
 export const analyze_btn = document.getElementById("analyze_btn") ;
 export const upload_btn = document.getElementById("upload_btn") ;
 
@@ -40,6 +43,7 @@ export const clear_all_output_divs = () => {
     jd_skills_output.innerText = "" ;
     gap_output.innerText = "" ;
     score_output.innerText = "" ;
+    recommendation_output.innerText = "" ;
     chart_output.innerText = "" ;
 }
 

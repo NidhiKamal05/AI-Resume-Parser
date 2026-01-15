@@ -2,9 +2,12 @@
 import * as globals from "./global.js" ;
 // import {get_file}  from "./global.js" ;
 
+
+
+/* FETCH RESUME TEXT */
+
 const fetchReadData = async() => {
     const file = globals.get_file ;
-    // const my_file = globals.get_file.files[0] ;
     const form_data = new FormData(globals.my_form) ;
     if(file.files.length > 0) {
         const pdf = file.files[0] ;
@@ -36,6 +39,10 @@ const fetchReadData = async() => {
         globals.hide_loader("raw_text") ;
     }
 }
+
+
+
+/* FETCH CONTACT INFO */
 
 const fetchContactData = async() => {
     const file = globals.get_file ;
@@ -75,6 +82,9 @@ const fetchContactData = async() => {
 }
 
 
+
+/* FETCH ENTITIES */
+
 const fetchEntitiesData = async() => {
     const file = globals.get_file ;
     const form_data = new FormData(globals.my_form) ;
@@ -111,6 +121,10 @@ const fetchEntitiesData = async() => {
         globals.hide_loader("entities") ;
     }
 }
+
+
+
+/* FETCH RESUME SKILLS */
 
 const fetchSkills = async() => {
     const file = globals.get_file ;
@@ -172,6 +186,9 @@ const fetchSkills = async() => {
 }
 
 
+
+/* FETCH JD SKILLS */
+
 const fetchJDSkills = async() => {
     const job_desc = globals.jd ;
     const form_data = new FormData(globals.my_form);
@@ -224,6 +241,9 @@ const fetchJDSkills = async() => {
 }
 
 
+
+/* FETCH SCORE */
+
 const fetchScore = async() => {
     const form_data = new FormData(globals.my_form) ;
     const file = globals.get_file ;
@@ -268,11 +288,12 @@ const fetchScore = async() => {
 }
 
 
-const fetchAnalyzeData = async() => {
-    // const my_file = globals.get_file.files[0] ;
-    const job_desc = globals.jd ;
+
+/* FETCH MISSING AND MATCHED SKILLS */
+
+const fetchGaps = async() => {
+    const form_data = new FormData(my_form) ;
     const file = globals.get_file ;
-    const form_data = new FormData(globals.my_form) ;
     if(file.files.length > 0) {
         const pdf = file.files[0] ;
         console.log(pdf.name) ;
@@ -282,11 +303,71 @@ const fetchAnalyzeData = async() => {
         console.log("Select any pdf...") ;
         return ;
     }
-    if (globals.jd) {
-        form_data.append("job_desc", globals.jd);
+    const job_desc = globals.jd ;
+    if(job_desc) {
+        form_data.append('job_desc', job_desc) ;
+    }
+    else {
+        console.log("Job Description is empty.....") ;
+        return ;
+    }
+    globals.show_loader("gaps", "Loading Gaps......") ;
+    try {
+        const response = await fetch(globals.gaps_api, {
+            method: 'POST',
+            body: form_data,
+        }) ;
+        if(!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`) ;
+        }
+        const result = await response.json() ;
+        console.log("Data fetched:", result) ;
+        const missing = Array.isArray(result['Missing Skills']) ? result['Missing Skills'].join(", ") : result['Missing Skills'] || "" ;
+        const matched = Array.isArray(result['Matched Skills']) ? result['Matched Skills'].join(", ") : result['Matched Skills'] || "" ;
+        const skill_coverage = JSON.stringify(result['Skill Coverage']) ;
+        globals.gap_output.innerText = `Missing Skills: ${missing}\n` +
+                                       `Matched Skills: ${matched}\n` +
+                                       `Skill Coverage: ${skill_coverage}`;
+    }
+    catch(error) {
+        console.log(`Error: ${error}`) ;
+    }
+    finally {
+        console.log(`Task Completed`) ;
+        globals.hide_loader("gaps") ;
+    }
+}
+
+
+
+/* FETCH FINAL ANALYZED DATA */
+
+const fetchAnalyzeData = async() => {
+    const form_data = new FormData(globals.my_form) ;
+    const file = globals.get_file ;
+    if(file.files.length > 0) {
+        const pdf = file.files[0] ;
+        console.log(pdf.name) ;
+        form_data.append('my_pdf', pdf) ;
+    }
+    else {
+        console.log("Select any pdf...") ;
+        return ;
+    }
+    const job_desc = globals.jd ;
+    if(job_desc) {
+        form_data.append("job_desc", job_desc);
+    }
+    else {
+        console.log("Job Description is empty.....") ;
+        return ;
     }
     globals.show_loader("score", "Loading Score....") ;
-    globals.show_loader("gap_analysis", "Loading Gaps....") ;
+    globals.show_loader("gaps", "Loading Gaps....") ;
+    globals.show_loader("recommendation", "Loading Recommendation....") ;
+    globals.show_loader("skills", "Loading Skills....") ;
+    globals.show_loader("raw_text", "Loading Resume Text....") ;
+    globals.show_loader("contact", "Loading Contact....") ;
     try {
         const response = await fetch(globals.analyze_api, {
             method: 'POST',
@@ -295,13 +376,14 @@ const fetchAnalyzeData = async() => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        // result = {'Missing Skills': missing_skills, 'Matched Skills': matched_skills, 'Score': score}
         const result = await response.json();
         console.log("Data fetched:", result);
-        globals.score_output.innerText=JSON.stringify(result.Score);
-        const missing = Array.isArray(result.Missing_Skills) ? result.Missing_Skills.join(", ") : result.Missing_Skills ;
-        const matched = Array.isArray(result.Matched_Skills) ? result.Matched_Skills.join(", ") : result.Matched_Skills ;
-        globals.gap_output.innerText = `Gaps = ${missing}\nMatched Skills = ${matched}`;
+        globals.raw_output.innerText = JSON.stringify(result["Candidate Profile"]["Name"]);
+        globals.contact_output.innerText = JSON.stringify(result["Candidate Profile"]["Contact"]);
+        globals.skills_output.innerText = JSON.stringify(result["Candidate Profile"]["Top Skills"]);
+        globals.score_output.innerText = JSON.stringify(result["ATS Analysis"]["Match Score"]);
+        globals.gap_output.innerText = JSON.stringify(result["ATS Analysis"]["Missing Keywords"]);
+        globals.recommendation_output.innerText = JSON.stringify(result["ATS Analysis"]["Recommendation"]);
         // globals.gap_output.innerText=`Gaps = ${result.Missing_Skills} \n Matched Skills=${result.Matched_Skills}`;
         // globals.score_output.innerText=JSON.stringify(result.Score);
     }
@@ -311,7 +393,11 @@ const fetchAnalyzeData = async() => {
     finally {
         console.log(`Task Completed`) ;
         globals.hide_loader("score") ;
-        globals.hide_loader("gap_analysis") ;
+        globals.hide_loader("gaps") ;
+        globals.hide_loader("recommendation") ;
+        globals.hide_loader("skills") ;
+        globals.hide_loader("raw_text") ;
+        globals.hide_loader("contact") ;
     }
 }
 
@@ -394,6 +480,13 @@ globals.score_btn.addEventListener("click", () => {
     console.log("SCORE") ;
     globals.clear_all_output_divs() ;
     fetchScore() ;
+}) ;
+
+
+globals.gaps_btn.addEventListener("click", () => {
+    console.log("GAPS") ;
+    globals.clear_all_output_divs() ;
+    fetchGaps() ;
 }) ;
 
 

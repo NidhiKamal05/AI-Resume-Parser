@@ -147,13 +147,39 @@ def extract_skills(text):
 
 
 
-def calculate_match_score(resume_text, job_description):
+# def calculate_match_score(resume_text, job_description):
+#     """
+#     Similarity score between a resume and a JD
+#     """
+
+#     resume_skills_dict = extract_skills(resume_text)
+#     jd_skills_dict = extract_skills(job_description)
+
+#     resume_skills = ", ".join(set(sum(resume_skills_dict.values(), [])))
+#     jd_skills = ", ".join(set(sum(jd_skills_dict.values(), [])))
+    
+#     text_list = [resume_skills, jd_skills]
+
+#     # Initialize Vectorizer
+#     vectorizer = TfidfVectorizer(stop_words='english')
+
+#     # Transform text into a matrix of numbers(vectors)
+#     tfidf_matrix = vectorizer.fit_transform(text_list)
+
+#     # Calculate similarity
+#     similarity_matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
+
+#     # Score as a percentage
+#     match_score = round(similarity_matrix[0][0] * 100, 2)
+
+#     return match_score
+
+
+
+def calculate_match_score(resume_skills_dict, jd_skills_dict):
     """
     Similarity score between a resume and a JD
     """
-
-    resume_skills_dict = extract_skills(resume_text)
-    jd_skills_dict = extract_skills(job_description)
 
     resume_skills = ", ".join(set(sum(resume_skills_dict.values(), [])))
     jd_skills = ", ".join(set(sum(jd_skills_dict.values(), [])))
@@ -173,3 +199,57 @@ def calculate_match_score(resume_text, job_description):
     match_score = round(similarity_matrix[0][0] * 100, 2)
 
     return match_score
+
+
+
+# def  analyze_skill_gap(resume_text, jd_text):
+def  analyze_skill_gap(resume_skills_dict, jd_skills_dict):
+    """
+    Identifies which required skills are missing from the resume.
+    """
+
+    # resume_skills_dict = extract_skills(resume_text)
+    # jd_skills_dict = extract_skills(jd_text)
+
+    # Flatten both dictionaries into simple lists/sets of skills
+    resume_skills_set = set([skill.lower() for sublist in resume_skills_dict.values() for skill in sublist])
+    jd_skills_set = set([skill.lower() for sublist in jd_skills_dict.values() for skill in sublist])
+
+    matched = jd_skills_set.intersection(resume_skills_set)
+    missing = jd_skills_set.difference(resume_skills_set)
+
+    return {
+        "Matched Skills": list(matched),
+        "Missing Skills": list(missing),
+        "Skill Coverage": f"{len(matched)} / {len(jd_skills_set)}" if jd_skills_set else "N/A"
+    }
+
+
+
+def final_resume_analyzer(pdf_file, job_desc):
+    # Pipeline Execution
+    raw_text = extract_text_from_pdf(pdf_file)
+    contacts = extract_contact_info(raw_text)
+    entities = extract_entities(raw_text)
+    resume_skills = extract_skills(raw_text)
+    jd_skills = extract_skills(job_desc)
+
+    # Logic layer
+    score = calculate_match_score(resume_skills, jd_skills)
+    gap_analysis = analyze_skill_gap(resume_skills, jd_skills)
+
+    # Decision logic
+    status = "Shortlist" if score > 70 else "Review" if score > 40 else "Reject"
+
+    return {
+        "Candidate Profile": {
+            "Name": entities["Candidate Name"],
+            "Contact" : contacts,
+            "Top Skills": resume_skills
+        },
+        "ATS Analysis": {
+            "Match Score": f"{score}%",
+            "Recommendation": status,
+            "Missing Keywords": gap_analysis["Missing_Skills"]
+        }
+    }

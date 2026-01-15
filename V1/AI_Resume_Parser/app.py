@@ -80,6 +80,22 @@ def find_jd_skills():
 		return jsonify({'error': str(e)}), 500
 
 
+# @app.route('/api/score', methods=['POST'])
+# def calc_score():
+# 	if 'my_pdf' not in request.files:
+# 		return jsonify({'error': 'No file uploaded'}), 400
+# 	my_pdf = request.files['my_pdf']
+# 	job_desc = request.form.get('job_desc', "").strip()
+# 	if not job_desc:
+# 		return jsonify({'error': 'No job description provided'}), 400
+# 	try:
+# 		raw_text = parser.extract_text_from_pdf(my_pdf)
+# 		score = parser.calculate_match_score(raw_text, job_desc)
+# 		return jsonify({'score': score})
+# 	except Exception as e:
+# 		return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/score', methods=['POST'])
 def calc_score():
 	if 'my_pdf' not in request.files:
@@ -90,10 +106,30 @@ def calc_score():
 		return jsonify({'error': 'No job description provided'}), 400
 	try:
 		raw_text = parser.extract_text_from_pdf(my_pdf)
-		score = parser.calculate_match_score(raw_text, job_desc)
+		resume_skills_dict = parser.extract_skills(raw_text)
+		jd_skills_dict = parser.extract_skills(job_desc)
+		score = parser.calculate_match_score(resume_skills_dict, jd_skills_dict)
 		return jsonify({'score': score})
 	except Exception as e:
 		return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/gap', methods=['POST'])
+def gaps():
+	if 'my_pdf' not in request.files:
+		return jsonify({'error': 'No file uploaded'}), 400
+	my_pdf = request.files['my_pdf']
+	job_desc = request.form.get('job_desc', "").strip()
+	if not job_desc:
+		return jsonify({'error': 'No job description provided'}), 400
+	try:
+		raw_text = parser.extract_text_from_pdf(my_pdf)
+		resume_skills_dict = parser.extract_skills(raw_text)
+		jd_skills_dict = parser.extract_skills(job_desc)
+		result = parser.analyze_resume(resume_skills_dict, jd_skills_dict)
+		return jsonify({'result': result})
+	except Exception as e:
+		return jsonify({'error' : str(e)}),500
 
 
 @app.route('/api/analyze', methods=['POST'])
@@ -101,14 +137,12 @@ def analyze_resume():
 	if 'my_pdf' not in request.files:
 		return jsonify({'error': 'No file uploaded'}), 400
 	my_pdf = request.files['my_pdf']
-	jd = request.form.get('job_desc')
+	job_desc = request.form.get('job_desc', "").strip()
+	if not job_desc:
+		return jsonify({'error': 'No job description provided'}), 400
 	try:
-		missing_skills = ["C++", "Machine Learning"]
-		matched_skills = ["JavaScript", "Python"]
-		score = 50
-		# result = {'Missing_Skills': missing_skills, 'Matched_Skills': matched_skills, 'Score': score}
-		# return jsonify({'result': result})
-		return jsonify({ 'Missing_Skills': missing_skills, 'Matched_Skills': matched_skills, 'Score': score })
+		result = parser.final_resume_analyzer(my_pdf, job_desc)
+		return jsonify({'result': result})
 	except Exception as e:
 		return jsonify({'error' : str(e)}),500
 	
