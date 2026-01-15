@@ -126,7 +126,7 @@ def gaps():
 		raw_text = parser.extract_text_from_pdf(my_pdf)
 		resume_skills_dict = parser.extract_skills(raw_text)
 		jd_skills_dict = parser.extract_skills(job_desc)
-		result = parser.analyze_resume(resume_skills_dict, jd_skills_dict)
+		result = parser.analyze_skill_gap(resume_skills_dict, jd_skills_dict)
 		return jsonify({'result': result})
 	except Exception as e:
 		return jsonify({'error' : str(e)}),500
