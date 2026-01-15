@@ -243,13 +243,13 @@ def final_resume_analyzer(pdf_file, job_desc):
 
     return {
         "Candidate Profile": {
-            "Name": entities["Candidate Name"],
+            "Name": entities["Candidate_Name"],
             "Contact" : contacts,
             "Top Skills": resume_skills
         },
         "ATS Analysis": {
             "Match Score": f"{score}%",
             "Recommendation": status,
-            "Missing Keywords": gap_analysis["Missing_Skills"]
+            "Missing Keywords": gap_analysis["Missing Skills"]
         }
     }
