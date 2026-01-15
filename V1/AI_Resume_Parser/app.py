@@ -114,7 +114,7 @@ def calc_score():
 		return jsonify({'error': str(e)}), 500
 
 
-@app.route('/api/gap', methods=['POST'])
+@app.route('/api/gaps', methods=['POST'])
 def gaps():
 	if 'my_pdf' not in request.files:
 		return jsonify({'error': 'No file uploaded'}), 400
