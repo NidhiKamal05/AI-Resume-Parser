@@ -108,8 +108,8 @@ const fetchEntitiesData = async() => {
         }
         const result = await response.json() ;
         console.log("Data fetched:", result) ;
-        const candidate_name = result.entities.Candidate_Name || "" ;
-        const all_names = Array.isArray(result.entities.All_Names_Found) ? result.entities.All_Names_Found.join(", ") : result.entities.All_Names_Found || "" ;
+        const candidate_name = result.entities["Candidate Name"] || "" ;
+        const all_names = Array.isArray(result.entities["All Names_Found"]) ? result.entities["All_Names_Found"].join(", ") : result.entities["All_Names_Found"] || "" ;
         const organization = Array.isArray(result.entities["Companies/Institutions"]) ? result.entities["Companies/Institutions"].join(", ") : result.entities["Companies/Institutions"] || "" ;
         globals.entities_output.innerText = `Candidate Name: ${candidate_name}\n` + `All Names Found: ${all_names}` + `Organization: ${organization}` ;
     }
@@ -324,7 +324,7 @@ const fetchGaps = async() => {
         console.log("Data fetched:", result) ;
         const missing = Array.isArray(result['Missing Skills']) ? result['Missing Skills'].join(", ") : result['Missing Skills'] || "" ;
         const matched = Array.isArray(result['Matched Skills']) ? result['Matched Skills'].join(", ") : result['Matched Skills'] || "" ;
-        const skill_coverage = JSON.stringify(result['Skill Coverage']) ;
+        const skill_coverage = JSON.stringify(result['Skill Coverage']) || "N/A" ;
         globals.gap_output.innerText = `Missing Skills: ${missing}\n` +
                                        `Matched Skills: ${matched}\n` +
                                        `Skill Coverage: ${skill_coverage}`;
@@ -377,13 +377,30 @@ const fetchAnalyzeData = async() => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const result = await response.json();
+        const profile = result["Candidate Profile"] ;
+        const analysis = result["ATS Analysis"] ;
         console.log("Data fetched:", result);
-        globals.raw_output.innerText = JSON.stringify(result["Candidate Profile"]["Name"]);
-        globals.contact_output.innerText = JSON.stringify(result["Candidate Profile"]["Contact"]);
-        globals.skills_output.innerText = JSON.stringify(result["Candidate Profile"]["Top Skills"]);
-        globals.score_output.innerText = JSON.stringify(result["ATS Analysis"]["Match Score"]);
-        globals.gap_output.innerText = JSON.stringify(result["ATS Analysis"]["Missing Keywords"]);
-        globals.recommendation_output.innerText = JSON.stringify(result["ATS Analysis"]["Recommendation"]);
+        globals.raw_output.innerText = JSON.stringify(profile["Name"]);
+        globals.contact_output.innerText = `Email: ${result.contact.Emails || ""}
+                                            Phone: ${result.contact.Phones || ""}
+                                            Linked In: ${result.contact.LinkedIn || ""}
+                                            Github: ${result.contact.Github || ""}` ;
+        let skills ;
+        for(const [category, skills] of Object.entries(profile["Top Skills"])) {
+            skills += `${category}: ${skills.join(", ")}\n` ;
+        }
+        globals.skills_output.innerText = `${skills}` ;
+        globals.score_output.innerText = JSON.stringify(analysis["Match Score"]) ;
+        globals.recommendation_output.innerText = JSON.stringify(analysis["Recommendation"]) ;
+        globals.gap_output.innerText = `Gaps = ${analysis["Missing Keywords"].length ? analysis["Missing Keywords"].join(", ") : "None"}` ;
+
+        // globals.raw_output.innerText = JSON.stringify(result["Candidate Profile"]["Name"]);
+        // globals.contact_output.innerText = JSON.stringify(result["Candidate Profile"]["Contact"]);
+        // globals.skills_output.innerText = JSON.stringify(result["Candidate Profile"]["Top Skills"]);
+        // globals.score_output.innerText = JSON.stringify(result["ATS Analysis"]["Match Score"]);
+        // globals.gap_output.innerText = JSON.stringify(result["ATS Analysis"]["Missing Keywords"]);
+        // globals.recommendation_output.innerText = JSON.stringify(result["ATS Analysis"]["Recommendation"]);
+
         // globals.gap_output.innerText=`Gaps = ${result.Missing_Skills} \n Matched Skills=${result.Matched_Skills}`;
         // globals.score_output.innerText=JSON.stringify(result.Score);
     }

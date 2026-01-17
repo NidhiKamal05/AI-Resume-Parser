@@ -91,8 +91,8 @@ def extract_entities(text):
     primary_name = entities["Name"][0] if entities["Name"] else "Not Identified"
 
     return {
-        "Candidate_Name": primary_name,
-        "All_Names_Found": list(set(entities["Name"])),
+        "Candidate Name": primary_name,
+        "All Names Found": list(set(entities["Name"])),
         "Companies/Institutions": list(set(entities["Organizations"]))
     }
 
@@ -243,7 +243,7 @@ def final_resume_analyzer(pdf_file, job_desc):
 
     return {
         "Candidate Profile": {
-            "Name": entities["Candidate_Name"],
+            "Name": entities["Candidate Name"],
             "Contact" : contacts,
             "Top Skills": resume_skills
         },
