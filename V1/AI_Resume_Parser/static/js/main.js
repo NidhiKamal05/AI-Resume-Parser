@@ -322,9 +322,9 @@ const fetchGaps = async() => {
         }
         const result = await response.json() ;
         console.log("Data fetched:", result) ;
-        const missing = Array.isArray(result['Missing Skills']) ? result['Missing Skills'].join(", ") : result['Missing Skills'] || "" ;
-        const matched = Array.isArray(result['Matched Skills']) ? result['Matched Skills'].join(", ") : result['Matched Skills'] || "" ;
-        const skill_coverage = JSON.stringify(result['Skill Coverage']) || "N/A" ;
+        const missing = Array.isArray(result.result['Missing Skills']) ? result.result['Missing Skills'].join(", ") : result.result['Missing Skills'] || "" ;
+        const matched = Array.isArray(result.result['Matched Skills']) ? result.result['Matched Skills'].join(", ") : result.result['Matched Skills'] || "" ;
+        const skill_coverage = JSON.stringify(result.result['Skill Coverage']) || "N/A" ;
         globals.gap_output.innerText = `Missing Skills: ${missing}\n` +
                                        `Matched Skills: ${matched}\n` +
                                        `Skill Coverage: ${skill_coverage}`;
@@ -376,15 +376,29 @@ const fetchAnalyzeData = async() => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        // return {
+        //     "Candidate Profile": {
+        //         "Name": entities["Candidate Name"],
+        //         "Contact" : contacts,
+        //         "Top Skills": resume_skills
+        //     },
+        //     "ATS Analysis": {
+        //         "Match Score": f"{score}%",
+        //         "Recommendation": status,
+        //         "Missing Keywords": gap_analysis["Missing Skills"]
+        //     }
+        // }
+
         const result = await response.json();
         const profile = result["Candidate Profile"] ;
         const analysis = result["ATS Analysis"] ;
         console.log("Data fetched:", result);
         globals.raw_output.innerText = JSON.stringify(profile["Name"]);
-        globals.contact_output.innerText = `Email: ${result.contact.Emails || ""}
-                                            Phone: ${result.contact.Phones || ""}
-                                            Linked In: ${result.contact.LinkedIn || ""}
-                                            Github: ${result.contact.Github || ""}` ;
+        globals.contact_output.innerText = `Email: ${profile.Contact.Emails || ""}
+                                            Phone: ${profile.Contact.Phones || ""}
+                                            Linked In: ${profile.Contact.LinkedIn || ""}
+                                            Github: ${profile.Contact.Github || ""}` ;
         let skills ;
         for(const [category, skills] of Object.entries(profile["Top Skills"])) {
             skills += `${category}: ${skills.join(", ")}\n` ;
@@ -504,6 +518,14 @@ globals.gaps_btn.addEventListener("click", () => {
     console.log("GAPS") ;
     globals.clear_all_output_divs() ;
     fetchGaps() ;
+    // const result={"result":{"Matched Skills":["tensorflow","azure","pytorch","python","ci/cd","docker","nlp","kubernetes","aws","scikit-learn","computer vision"],"Missing Skills":["C++","Flask"],"Skill Coverage":"11 / 11"}}
+    // const missing = Array.isArray(result.result['Missing Skills']) ? result.result['Missing Skills'].join(", ") : result.result['Missing Skills'] || "" ;
+    //     const matched = Array.isArray(result.result['Matched Skills']) ? result.result['Matched Skills'].join(", ") : result.result['Matched Skills'] || "" ;
+    //     const skill_coverage = JSON.stringify(result.result['Skill Coverage']) || "N/A" ;
+    // globals.gap_output.innerText = `Missing Skills: ${missing}\n` +
+    // `Matched Skills: ${matched}\n` +
+    // `Skill Coverage: ${skill_coverage}`+
+    // `Result :${result.result}`;
 }) ;
 
 
