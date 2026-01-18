@@ -391,21 +391,21 @@ const fetchAnalyzeData = async() => {
         // }
 
         const result = await response.json();
-        const profile = result["Candidate Profile"] ;
-        const analysis = result["ATS Analysis"] ;
+        const profile = result.result["Candidate Profile"] ;
+        const analysis = result.result["ATS Analysis"] ;
         console.log("Data fetched:", result);
-        globals.raw_output.innerText = JSON.stringify(profile["Name"]);
+        globals.raw_output.innerText = JSON.stringify(profile.Name);
         globals.contact_output.innerText = `Email: ${profile.Contact.Emails || ""}
                                             Phone: ${profile.Contact.Phones || ""}
                                             Linked In: ${profile.Contact.LinkedIn || ""}
                                             Github: ${profile.Contact.Github || ""}` ;
-        let skills ;
+        let skills = "" ;
         for(const [category, skills] of Object.entries(profile["Top Skills"])) {
             skills += `${category}: ${skills.join(", ")}\n` ;
         }
         globals.skills_output.innerText = `${skills}` ;
         globals.score_output.innerText = JSON.stringify(analysis["Match Score"]) ;
-        globals.recommendation_output.innerText = JSON.stringify(analysis["Recommendation"]) ;
+        globals.recommendation_output.innerText = JSON.stringify(analysis.Recommendation) ;
         globals.gap_output.innerText = `Gaps = ${analysis["Missing Keywords"].length ? analysis["Missing Keywords"].join(", ") : "None"}` ;
 
         // globals.raw_output.innerText = JSON.stringify(result["Candidate Profile"]["Name"]);
