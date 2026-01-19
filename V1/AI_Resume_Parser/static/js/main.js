@@ -403,13 +403,14 @@ const fetchAnalyzeData = async() => {
         // for(const [category, skills] of Object.entries(profile["Top Skills"])) {
         //     skills += `${category}: ${skills.join(", ")}\n` ;
         // }
-        const skills = `
-        <h3>Top Skills</h3>
-        <ul> 
-            ${Object.entries(profile["Top Skills"]).map(([category, skills]) => `<li><strong>${category}:</strong> ${skills.join(", ")}</li>`).join("")}
-        </ul>`
-        // globals.skills_output.innerText = `${skills}` ;
-        globals.skills_output.innerHTML = `${skills}` ;
+		const skills = Object.entries(profile["Top Skills"]).map(([category, skills]) => `${category}: ${skills.join(", ")}`).join("\n") ;
+        globals.skills_output.innerText = `${skills}` ;
+        // const skills = `
+        // <h3>Top Skills</h3>
+        // <ul> 
+            // ${Object.entries(profile["Top Skills"]).map(([category, skills]) => `<li><strong>${category}:</strong> ${skills.join(", ")}</li>`).join("")}
+        // </ul>`
+        // globals.skills_output.innerHTML = `${skills}` ;
         globals.score_output.innerText = JSON.stringify(analysis["Match Score"]) ;
         globals.recommendation_output.innerText = JSON.stringify(analysis.Recommendation) ;
         globals.gap_output.innerText = `Gaps = ${analysis["Missing Keywords"].length ? analysis["Missing Keywords"].join(", ") : "None"}` ;
