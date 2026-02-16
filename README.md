@@ -1,10 +1,13 @@
-![Alt text](./AI_Resume_Parser.gif)
-
-https://github.com/NidhiKamal05/AI-Resume-Parser/blob/main/AI_Resume_Parser.gif
 # AI Resume Parser
 
 AI Resume Parser is a web-based application that parses resumes (Text PDF format) and compares them with a given Job Description (text format).  
 It extracts important details from the resume, matches skills with the job description, finds missing skills, calculates a matching score in percentage, and finally decides whether the candidate is eligible for the job or not.
+
+---
+
+## Demo
+
+![Alt text](./AI_Resume_Parser.gif)
 
 ---
 
@@ -138,7 +141,7 @@ Once deployed, Render will pull this folder from the repo and run the project.
 
 ## Author
 
-Nidhi Kamal
-GitHub: https://github.com/NidhiKamal05
-LinkedIn: https://linkedin.com/in/nidhikamal05
+Nidhi Kamal<br>
+GitHub: https://github.com/NidhiKamal05<br>
+LinkedIn: https://linkedin.com/in/nidhikamal05<br>
 Leetcode: https://leetcode.com/u/Nidhi_Kamal
