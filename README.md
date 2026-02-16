@@ -1,3 +1,5 @@
+#Output
+https://github.com/NidhiKamal05/AI-Resume-Parser/blob/main/AI_Resume_Parser.gif
 # AI Resume Parser
 
 AI Resume Parser is a web-based application that parses resumes (Text PDF format) and compares them with a given Job Description (text format).  
