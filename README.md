@@ -1,4 +1,5 @@
-#Output
+![Alt text](./AI_Resume_Parser.gif)
+
 https://github.com/NidhiKamal05/AI-Resume-Parser/blob/main/AI_Resume_Parser.gif
 # AI Resume Parser
 
