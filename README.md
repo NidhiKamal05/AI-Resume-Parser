@@ -145,3 +145,9 @@ Nidhi Kamal<br>
 GitHub: https://github.com/NidhiKamal05<br>
 LinkedIn: https://linkedin.com/in/nidhikamal05<br>
 Leetcode: https://leetcode.com/u/Nidhi_Kamal
+
+---
+
+## Support
+
+If you like this project, give it a ⭐ on GitHub!
